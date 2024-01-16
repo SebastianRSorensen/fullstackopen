@@ -48,6 +48,7 @@ const Content = (props) => {
   console.log("PROPS " + props.parts[0].name)
   return (
     <div>
+      <p>hei</p>
       <Part part={props.parts[0].name} points={props.parts[0].exercises} />
       <Part part={props.parts[1].name} points={props.parts[1].exercises} />
       <Part part={props.parts[2].name} points={props.parts[2].exercises} />
