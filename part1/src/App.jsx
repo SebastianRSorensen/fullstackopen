@@ -16,6 +16,15 @@ const App = () => {
       }
     ]
   }
+  const arto = {
+    name: 'Arto Hellas',
+    greet: function() {
+      console.log('hello, my name is ' + this.name)
+    },
+  }
+  
+  
+  setTimeout(arto.greet.bind(arto), 5000)
 
   return (
     <div>

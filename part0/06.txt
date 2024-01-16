@@ -8,3 +8,4 @@ sequenceDiagram
     deactivate server
     
     Rerenders the note list on the page and sends the new note to the serve instead of rerendering the complete page.
+
