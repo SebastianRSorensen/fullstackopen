@@ -1,34 +1,47 @@
 const App = () => {
-  console.log('Hello from component')
-  const now = new Date()
-  const a = 10
-  const b = 20
+  const course = 'Half Stack application development'
+  const part1 = 'Fundamentals of React'
+  const exercises1 = 10
+  const part2 = 'Using props to pass data'
+  const exercises2 = 7
+  const part3 = 'State of a component'
+  const exercises3 = 14
 
-  const name = 'Peter'
-  const age = 10
   return (
     <div>
-      <p>Hello world, it is now {now.toString()}</p>
-      <p>and all the people of the world</p>
-      <h1>React is nice</h1>
-      <p>
-        {a} plus {b} is {a + b}
-      </p>
-      <Hello name="Seb"/>
-      <Hello name="Vilde" age={10+13}/>
-      <Hello name={name} age={age}/>
-      <Hello hest="HEST" age={99}/>
+      <Header course={course} />
+      <Content parts={[part1,part2, part3]} points={[exercises1, exercises2, exercises3]}/>
+      <Total total={exercises1+exercises2+exercises3} />
     </div>
   )
 }
 
-const Hello = (props) => {
+const Header = (props) => {
   console.log(props)
-  console.log("pop1 "+props.name)
-  console.log("pop1 "+props.hest)
-  return (
+  return(
     <div>
-      <p>Hello {props.name}, you are {props.age} years old</p>
+      <h1>{props.course}</h1>
+    </div>
+  )
+}
+
+const Content = (props) => {
+  console.log(props)
+  return(
+    <div>
+      <p>{props.parts[0]} {props.points[0]}</p>
+      <p>{props.parts[1]} {props.points[1]}</p>
+      <p>{props.parts[2]} {props.points[2]}</p>
+    </div>
+  )
+}
+
+
+const Total = (props) => {
+  console.log(props)
+  return(
+    <div>
+      <p>Number of exercises {props.total}</p>
     </div>
   )
 }
