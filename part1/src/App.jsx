@@ -29,9 +29,18 @@ const Content = (props) => {
   console.log(props)
   return(
     <div>
-      <p>{props.parts[0]} {props.points[0]}</p>
-      <p>{props.parts[1]} {props.points[1]}</p>
-      <p>{props.parts[2]} {props.points[2]}</p>
+      <Part part={props.parts[0]} points={props.points[0]}/>
+      <Part part={props.parts[1]} points={props.points[1]}/>
+      <Part part={props.parts[2]} points={props.points[2]}/>
+    </div>
+  )
+}
+
+const Part = (props) => {
+  console.log(props)
+  return(
+    <div>
+      <p>{props.part} {props.points}</p>
     </div>
   )
 }
