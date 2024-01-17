@@ -52,27 +52,30 @@ const Button = ({ handleClick, text }) => {
     <button onClick={handleClick}> {text} </button>
   )
 }
-const Statistics = ({good, neutral, bad, all }) => {
+const Statistics = ({ good, neutral, bad, all }) => {
   const posPercent = (good / all) * 100
   const avg = (good - bad) / all
   return (
-    <div>
-      <StatisticLine text="good" value ={good} />
-      <StatisticLine text="neutral" value ={neutral} />
-      <StatisticLine text="bad" value ={bad} />
-      <StatisticLine text="all" value ={all} />
-      <StatisticLine text="average" value ={avg} />
-      <StatisticLine text="positive" value ={posPercent+" %"}/>
-    </div>
+    <table>
+      <tbody>
+      <StatisticLine text="good" value={good} />
+      <StatisticLine text="neutral" value={neutral} />
+      <StatisticLine text="bad" value={bad} />
+      <StatisticLine text="all" value={all} />
+      <StatisticLine text="average" value={avg} />
+      <StatisticLine text="positive" value={posPercent + " %"} />
+      </tbody>
+    </table>
   )
 }
 
 const StatisticLine = ({ text, value }) => {
   return (
-    <div>
-      <p>{text} {value}</p>
-    </div>
+    <tr>
+      <td>{text}</td>
+      <td>{value}</td>
+    </tr>
   )
-  }
+}
 
 export default App
