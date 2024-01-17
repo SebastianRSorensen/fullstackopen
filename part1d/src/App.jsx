@@ -23,7 +23,7 @@ const App = () => {
         return res
     }
 
-    const handlevotes = () => {
+    const handleVotes = () => {
         const copyPoints = [...votes]
         copyPoints[selected] += 1
         return copyPoints
@@ -34,7 +34,7 @@ const App = () => {
             <h2>Anecdote of the day</h2>
             <p>{anecdotes[selected]}</p>
             <p>has {votes[selected]} votes</p>
-            <button onClick={() => setvotess(handlevotes())}>votes</button>
+            <button onClick={() => setvotess(handleVotes())}>votes</button>
             <button onClick={() => setSelected(handleNext())}>next anecdote</button>
             <MostVotes votes={votes} anecdotes={anecdotes} />
         </div>
