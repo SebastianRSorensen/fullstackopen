@@ -4,6 +4,7 @@ import { useEffect } from 'react'
 import countryService from './services/countries'
 import Countries from './components/Countries'
 import Filter from './components/Filter'
+import Country from './components/Country'
 
 
 function App() {
@@ -24,15 +25,18 @@ function App() {
     setFilter(event.target.value)
   }
   const countriesToShow = filterName.length <= 0
-    ? countries
-    : countries.filter((country) => country.name.common.toLowerCase().includes(filterName.toLowerCase()))
+    ? []
+    : countries.filter((country) => country.name.common.toLowerCase()
+    .includes(filterName.toLowerCase()))
 
 
 
   return (
     <div>
       <Filter handleNewFilter={handleNewFilter} />
-      <Countries countriesToShow={countriesToShow} />
+      {countriesToShow.length === 1 
+      ? <Country country={countriesToShow}/> 
+      : <Countries countriesToShow={countriesToShow} />}
     </div>
   )
 }
