@@ -11,8 +11,8 @@ const App = () => {
     useEffect(() => {
         personService
             .getAll()
-            .then(response => {
-                setPersons(response.data)
+            .then(initialPersons => {
+                setPersons(initialPersons)
             })
     }, [])
 
@@ -26,20 +26,26 @@ const App = () => {
             name: newName,
             number: newNumber
         }
-        if (persons.find((person) => person.name === newName)) {
-            alert(`${newName} is already added to phonebook`)
+        const foundPerson = persons.find((person) => person.name === newName)
+        if (foundPerson) {
+            if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
+                personService.update(foundPerson.id, personObject)
+                    .then(updatedPerson => {
+                        setPersons(persons.map(person => person.id !== foundPerson.id ? person : updatedPerson))
+                        setNewName('')
+                        setNewNumber('')
+                    })
+            }
             return
         }
         personService
             .create(personObject)
-            .then(response => {
-                setPersons(persons.concat(response.data))
+            .then(returnedPerson => {
+                setPersons(persons.concat(returnedPerson))
                 setNewName('')
                 setNewNumber('')
             })
         console.log(personObject);
-
-
     }
 
     const handleNewName = (event) => {
@@ -56,9 +62,13 @@ const App = () => {
         console.log(event.target.value);
         setFilter(event.target.value)
     }
+
+
+
     const personsToShow = filterName.length <= 0
         ? persons
         : persons.filter((person) => person.name.toLowerCase().includes(filterName.toLowerCase()))
+
 
 
     return (
@@ -70,7 +80,7 @@ const App = () => {
             <h3>Add a new</h3>
             <PersonForm newName={newName} newNumber={newNumber} handleNewName={handleNewName} handleNewNumber={handleNewNumber} handleSubmit={handleSubmit} />
             <h3>Numbers</h3>
-            <Persons personsToShow={personsToShow} />
+            <Persons personsToShow={personsToShow} setPersons={setPersons} />
         </div>
     )
 }
