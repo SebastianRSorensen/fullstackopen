@@ -1,13 +1,11 @@
 import personService from '../services/persons'
 
-const Persons = ({ personsToShow, setPersons }) => {
+const Persons = ({ personsToShow, handleDelete }) => {
 
-    const handleDelete = (person) => {
-        if (window.confirm(`Delete ${person.name}?`)) {
-            personService.deletePerson(person.id)
-            setPersons(personsToShow.filter(p => p.id !== person.id))
-        }
+    const errorStyle = {
+        color: 'red',
     }
+
 
     return (
         <div>

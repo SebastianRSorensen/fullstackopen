@@ -3,6 +3,7 @@ import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
 import personService from './services/persons'
+import Notification from './components/Notification'
 
 const App = () => {
     const [persons, setPersons] = useState([
@@ -19,6 +20,10 @@ const App = () => {
     const [newName, setNewName] = useState('')
     const [newNumber, setNewNumber] = useState('')
     const [filterName, setFilter] = useState('')
+    const [notificationMessage, setNotificationMessage] = useState({
+        message: "initial message",
+        error: false
+    })
 
     const handleSubmit = (event) => {
         event.preventDefault()
@@ -34,7 +39,9 @@ const App = () => {
                         setPersons(persons.map(person => person.id !== foundPerson.id ? person : updatedPerson))
                         setNewName('')
                         setNewNumber('')
+                        handleNotification(`Updated ${updatedPerson.name}`, false)
                     })
+                    .catch(error => {handleNotification(`UPDATING... The person '${foundPerson.name}' has already been  deleted from server`, true)})
             }
             return
         }
@@ -44,7 +51,9 @@ const App = () => {
                 setPersons(persons.concat(returnedPerson))
                 setNewName('')
                 setNewNumber('')
+                handleNotification(`Added ${returnedPerson.name}`, false)
             })
+
         console.log(personObject);
     }
 
@@ -63,6 +72,28 @@ const App = () => {
         setFilter(event.target.value)
     }
 
+    const handleNotification = (message, bool) => {
+        console.log(message, bool)
+        setNotificationMessage({ message: message, error: bool })
+        console.log("NOTMSG: ", notificationMessage)
+        setTimeout(() => {
+            setNotificationMessage({
+                message: null,
+                error: false
+            }
+            )
+        }, 5000)
+        console.log("NOTMSG: ", notificationMessage)
+    }
+
+    const handleDelete = (person) => {
+        if (window.confirm(`Delete ${person.name}?`)) {
+            personService.deletePerson(person.id)
+                .catch(error => { handleNotification((`The person '${person.name}' was already deleted from server`), true) })
+            setPersons(personsToShow.filter(p => p.id !== person.id))
+        }
+    }
+
 
 
     const personsToShow = filterName.length <= 0
@@ -74,13 +105,14 @@ const App = () => {
     return (
         <div>
             <h2>Phonebook</h2>
+            <Notification message={notificationMessage.message} error={notificationMessage.error} />
             <div>debug: {newName}</div>
             <div>debug nr: {newNumber}</div>
             <Filter handleNewFilter={handleNewFilter} />
             <h3>Add a new</h3>
             <PersonForm newName={newName} newNumber={newNumber} handleNewName={handleNewName} handleNewNumber={handleNewNumber} handleSubmit={handleSubmit} />
             <h3>Numbers</h3>
-            <Persons personsToShow={personsToShow} setPersons={setPersons} />
+            <Persons personsToShow={personsToShow} handleDelete={handleDelete} />
         </div>
     )
 }

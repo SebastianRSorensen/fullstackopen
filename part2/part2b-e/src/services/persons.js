@@ -18,7 +18,7 @@ const update = (id, newObject) => {
 
 const deletePerson = (id) => {
     const request = axios.delete(`${baseUrl}/${id}`)
-    .catch(error => {alert(`The person '${id}' was already deleted from server`)})
+    
     return request.then(response => response.data)
 }
 
