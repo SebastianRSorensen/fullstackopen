@@ -1,44 +1,44 @@
-import { useState } from 'react'
-
-import { useEffect } from 'react'
-import countryService from './services/countries'
-import Countries from './components/Countries'
-import Filter from './components/Filter'
-import Country from './components/Country'
-
+import { useState, useEffect } from 'react';
+import countryService from './services/countries';
+import Countries from './components/Countries';
+import Filter from './components/Filter';
 
 function App() {
-  const [countries, setCountries] = useState([
-  ])
+  const [countries, setCountries] = useState([]);
+  const [countriesToShow, setCountriesToShow] = useState([]);
+  const [filterName, setFilter] = useState('');
 
   useEffect(() => {
     countryService
       .getAll()
       .then(initialCountries => {
-        setCountries(initialCountries)
-      })
-  }, [])
-  const [filterName, setFilter] = useState('')
+        setCountries(initialCountries);
+      });
+  }, []);
+
+  useEffect(() => {
+    const filteredCountries = filterName.length <= 0
+      ? countries
+      : countries.filter((country) => country.name.common.toLowerCase().includes(filterName.toLowerCase()));
+
+    setCountriesToShow(filteredCountries);
+  }, [filterName, countries]);
 
   const handleNewFilter = (event) => {
-    console.log(event.target.value);
-    setFilter(event.target.value)
-  }
-  const countriesToShow = filterName.length <= 0
-    ? []
-    : countries.filter((country) => country.name.common.toLowerCase()
-    .includes(filterName.toLowerCase()))
+    setFilter(event.target.value);
+  };
 
-
+  const handleShowCountry = (countryName) => {
+    const selectedCountry = countries.filter((country) => country.name.common === countryName);
+    setCountriesToShow(selectedCountry);
+  };
 
   return (
     <div>
       <Filter handleNewFilter={handleNewFilter} />
-      {countriesToShow.length === 1 
-      ? <Country country={countriesToShow}/> 
-      : <Countries countriesToShow={countriesToShow} />}
+      <Countries countriesToShow={countriesToShow} onShowCountry={handleShowCountry} />
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
