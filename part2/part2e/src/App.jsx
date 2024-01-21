@@ -7,7 +7,6 @@ function App() {
   const [countries, setCountries] = useState([]);
   const [countriesToShow, setCountriesToShow] = useState([]);
   const [filterName, setFilter] = useState('');
-
   useEffect(() => {
     countryService
       .getAll()
