@@ -28,7 +28,8 @@ const Country = (country) => {
             <h3>Weather in {currentCountry.capital[0]}</h3>
             {weatherData.current &&(<>
             <p><b>temperature:</b> {weatherData.current.temp} Celsius</p>
-            <img src={weatherData.current.weather_icons} alt="weather icon" width="100" height="100"></img> 
+            <p>Weatherdata: {weatherData.current.weather[0].icon}</p>
+            <img src={`https://openweathermap.org/img/wn/${weatherData.current.weather[0].icon}@2x.png`} alt="weather icon" width="100" height="100"></img> 
             <p><b>wind:</b> {weatherData.current.wind_speed} m/s</p>
             </>)
 
